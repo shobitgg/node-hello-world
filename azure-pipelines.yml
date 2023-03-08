@@ -1,0 +1,33 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: GoTool@0
+  inputs:
+    version: '1.19'
+- task: CmdLine@2
+  inputs:
+    script: |
+      git clone https://github.com/sigstore/cosign
+      cd cosign
+      go install ./cmd/cosign
+      $(go env GOPATH)/bin/cosign
+
+
+- task: CmdLine@2
+  inputs:
+    script: |
+      SRC_IMAGE=busybox
+      SRC_DIGEST=$(crane digest busybox)
+      IMAGE_URI=ttl.sh/$(uuidgen | head -c 8):1h
+      crane cp $SRC_IMAGE@$SRC_DIGEST
+      IMAGE_URI:1h
+      IMAGE_URI_DIGEST=$IMAGE_URI@$SRC_DIGEST
