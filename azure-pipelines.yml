@@ -13,6 +13,16 @@ steps:
 # - task: GoTool@0
 #   inputs:
 #     version: '1.19'
+
+- task: AzureKeyVault@2
+  inputs:
+    azureSubscription: 'cosign'
+    KeyVaultName: 'cosigndemo'
+    SecretsFilter: '*'
+    RunAsPreJob: false
+
+
+
 - task: CmdLine@2
   inputs:
     script: |
@@ -26,11 +36,11 @@ steps:
 
 - task: Docker@2
   inputs:
-    containerRegistry: 'demoappContainerRegistery'
+    containerRegistry: 'cosigndemoacr'
     command: 'login'
 - task: Docker@2
   inputs:
-    containerRegistry: 'demoappContainerRegistery'
+    containerRegistry: 'cosigndemoacr'
     repository: 'hello-world'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
