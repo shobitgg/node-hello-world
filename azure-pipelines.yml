@@ -16,7 +16,7 @@ steps:
 
 - task: AzureKeyVault@2
   inputs:
-    azureSubscription: 'cosign'
+    azureSubscription: 'Kyndryl course Modernops'
     KeyVaultName: 'cosigndemo'
     SecretsFilter: '*'
     RunAsPreJob: true
