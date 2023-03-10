@@ -21,7 +21,7 @@ steps:
 - script: ls
 - task: CmdLine@2
   inputs:
-    script: cosign-linux-amd64 help
+    script: ./cosign-linux-amd64 help
 - task: Docker@2
   inputs:
     containerRegistry: 'demoappContainerRegistery'
