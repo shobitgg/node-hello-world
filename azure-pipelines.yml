@@ -10,9 +10,9 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: GoTool@0
-  inputs:
-    version: '1.19'
+# - task: GoTool@0
+#   inputs:
+#     version: '1.19'
 - task: CmdLine@2
   inputs:
     script: |
@@ -22,6 +22,12 @@ steps:
 - task: CmdLine@2
   inputs:
     script: ./cosign-linux-amd64 help
+
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'demoappContainerRegistery'
+    command: 'login'
 - task: Docker@2
   inputs:
     containerRegistry: 'demoappContainerRegistery'
@@ -29,8 +35,11 @@ steps:
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
 
-- script: ./cosign-linux-amd64 generate-key-pair -kms "azurekms://cosigndemo.vault.azure.net/cosignkey"
+- script: export AZURE_CLIENT_SECRET=Yqp8Q~VoHJMXmFOXjENxLFC7sHLWWugZD.WcOa-k
+- script: export AZURE_CLIENT_ID=e287926e-b744-4534-8f96-ca3df4be459e
 
-- script: which ./cosign-linux-amd64 
+# - script: ./cosign-linux-amd64 generate-key-pair -kms "azurekms://cosigndemo.vault.azure.net/cosignkey"
+
+# - script: which ./cosign-linux-amd64 
 
 - script: ./cosign-linux-amd64 sign -key "azurekms://cosign.vault.azure.net/cosignkey" cosigndemoacr.azurecr.io/nginx:v1
