@@ -29,8 +29,8 @@ steps:
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
 
-- script: cosign-linux-amd64 generate-key-pair -kms "azurekms://cosigndemo.vault.azure.net/cosignkey"
+- script: ./cosign-linux-amd64 generate-key-pair -kms "azurekms://cosigndemo.vault.azure.net/cosignkey"
 
-- script: which cosign-linux-amd64 
+- script: which ./cosign-linux-amd64 
 
-- script: cosign-linux-amd64 sign -key "azurekms://cosign.vault.azure.net/cosignkey" cosigndemoacr.azurecr.io/nginx:v1
+- script: ./cosign-linux-amd64 sign -key "azurekms://cosign.vault.azure.net/cosignkey" cosigndemoacr.azurecr.io/nginx:v1
