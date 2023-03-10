@@ -21,13 +21,18 @@ steps:
       go install ./cmd/cosign
       $(go env GOPATH)/bin/cosign
 
-
 - task: CmdLine@2
   inputs:
-    script: |
-      SRC_IMAGE=busybox
-      SRC_DIGEST=$(crane digest busybox)
-      IMAGE_URI=ttl.sh/$(uuidgen | head -c 8):1h
-      crane cp $SRC_IMAGE@$SRC_DIGEST
-      IMAGE_URI:1h
-      IMAGE_URI_DIGEST=$IMAGE_URI@$SRC_DIGEST
+    script: 'cosign help'
+- task: Docker@2
+  inputs:
+    containerRegistry: 'demoappContainerRegistery'
+    repository: 'hello-world'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+
+- script: cosign generate-key-pair -kms "azurekms://cosigndemo.vault.azure.net/cosignkey"
+
+- script: which cosign 
+
+- script: cosign sign -key "azurekms://cosign.vault.azure.net/cosignkey" cosigndemoacr.azurecr.io/nginx:v1
