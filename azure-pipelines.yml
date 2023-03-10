@@ -20,10 +20,12 @@ steps:
       cd cosign
       go install ./cmd/cosign
       $(go env GOPATH)/bin/cosign
-
+      wget "https://github.com/sigstore/cosign/releases/download/v2.0.0/cosign-linux-amd64"
+      chmod +x cosign-linux-amd64
+      cosign-linux-amd64 help
 - task: CmdLine@2
   inputs:
-    script: 'cosign help'
+    script: cosign-linux-amd64 help
 - task: Docker@2
   inputs:
     containerRegistry: 'demoappContainerRegistery'
@@ -31,8 +33,8 @@ steps:
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
 
-- script: cosign generate-key-pair -kms "azurekms://cosigndemo.vault.azure.net/cosignkey"
+- script: cosign-linux-amd64 generate-key-pair -kms "azurekms://cosigndemo.vault.azure.net/cosignkey"
 
-- script: which cosign 
+- script: which cosign-linux-amd64 
 
-- script: cosign sign -key "azurekms://cosign.vault.azure.net/cosignkey" cosigndemoacr.azurecr.io/nginx:v1
+- script: cosign-linux-amd64 sign -key "azurekms://cosign.vault.azure.net/cosignkey" cosigndemoacr.azurecr.io/nginx:v1
