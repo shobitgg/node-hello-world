@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
 
 steps:
 # - task: GoTool@0
@@ -43,7 +43,7 @@ steps:
     containerRegistry: 'demoappContainerRegistery'
     repository: 'hello-world'
     command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
+    Dockerfile: '**\Dockerfile'
     tags: 'latest'
 
 - script: export AZURE_CLIENT_SECRET=Yqp8Q~VoHJMXmFOXjENxLFC7sHLWWugZD.WcOa-k
