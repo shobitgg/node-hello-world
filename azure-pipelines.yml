@@ -40,7 +40,7 @@ steps:
 #     command: 'login'
 - task: Docker@2
   inputs:
-    containerRegistry: 'cosigndemoacr'
+    containerRegistry: 'demoappContainerRegistery'
     repository: 'hello-world'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
@@ -53,4 +53,4 @@ steps:
 
 # - script: which ./cosign-linux-amd64 
 
-- script: ./cosign-linux-amd64 sign -key "azurekms://cosign.vault.azure.net/cosignkey" cosigndemoacr.azurecr.io/hello-world:latest
+- script: ./cosign-linux-amd64 sign -key "azurekms://cosign.vault.azure.net/cosignkey" demoappcontainerregistery.azurecr.io/hello-world:latest
